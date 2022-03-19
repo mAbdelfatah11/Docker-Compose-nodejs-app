@@ -1,0 +1,33 @@
+version: '3'
+services:
+  my-app:
+     #image: ${docker-registry"dockerhub-awsEcr-nexus"}/{image-name}:{tag}
+     image: mabdelfatah/node-app:v1.3
+     ports:
+      - 3000:3000
+
+  mongodb:
+    image: mongo
+    ports:
+     - 27017:27017
+    environment:
+     - MONGO_INITDB_ROOT_USERNAME=admin
+     - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+     - mongo-dataV1.2:/data/db
+  mongo-express:
+    image: mongo-express
+    ports:
+     - 8080:8081
+    environment:
+     - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+     - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+     - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+     - ME_CONFIG_MONGODB_SERVER=mongodb 
+    depends_on:
+       - mongodb
+volumes:
+  mongo-dataV1.2:
+    driver: local
+
+
